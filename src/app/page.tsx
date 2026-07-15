@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tags, Eye, Shield, FileText, Globe, Code2, ArrowRight } from 'lucide-react';
+import { Tags, Eye, Shield, FileText, Globe, Code2, ArrowRight, Braces, Link2, Binary, QrCode } from 'lucide-react';
 
 const tools = [
   {
@@ -40,6 +40,37 @@ const tools = [
     description: 'Extract and validate JSON-LD & Microdata structured data. Check required properties for Rich Results.',
     href: '/tools/schema-validator',
     icon: Code2,
+    badge: 'New',
+  },
+  {
+    title: 'JSON Formatter',
+    description: 'Validate, format, and minify JSON. Beautify messy JSON with a single click. Copy formatted output instantly.',
+    href: '/tools/json-formatter',
+    icon: Braces,
+  },
+  {
+    title: 'URL Encoder/Decoder',
+    description: 'Encode special characters for URLs or decode percent-encoded strings back to plain text.',
+    href: '/tools/url-encoder',
+    icon: Link2,
+  },
+  {
+    title: 'Base64 Encoder/Decoder',
+    description: 'Encode text to Base64 or decode Base64 strings. Works with UTF-8 including CJK characters.',
+    href: '/tools/base64-encoder',
+    icon: Binary,
+  },
+  {
+    title: 'Markdown Previewer',
+    description: 'Live preview of Markdown with split view. Supports headings, lists, links, images, code, and blockquotes.',
+    href: '/tools/markdown-previewer',
+    icon: Eye,
+  },
+  {
+    title: 'QR Code Generator',
+    description: 'Generate QR codes from any text or URL. Customize colors and size. Download as PNG. Pure client-side, no tracking.',
+    href: '/tools/qr-generator',
+    icon: QrCode,
     badge: 'New',
   },
 ];

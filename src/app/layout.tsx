@@ -13,8 +13,43 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuickSEO Tools - Free SEO Checker",
-  description: "Free, browser-based SEO tools. Check meta tags, preview social cards, validate SSL, robots.txt, and sitemaps. No paywalls, no ads.",
+  title: "QuickSEO Tools - Free SEO, JSON, QR, Markdown & Developer Utilities",
+  description:
+    "100% free online tools for SEO and developers. Meta tag checker, OG previewer, SSL checker, JSON formatter, URL encoder, Base64 encoder, Markdown previewer, QR code generator, robots.txt validator, sitemap validator, schema validator, and more. No paywalls, no ads, browser-based.",
+  keywords: [
+    "free seo tools",
+    "meta tag checker",
+    "og previewer",
+    "ssl checker",
+    "json formatter",
+    "url encoder",
+    "base64 encoder",
+    "markdown previewer",
+    "qr code generator",
+    "robots.txt validator",
+    "sitemap validator",
+    "schema validator",
+    "online developer tools",
+    "free online tools",
+  ],
+  openGraph: {
+    title: "QuickSEO Tools - Free SEO & Developer Utilities",
+    description:
+      "Browser-based tools for SEO and developers. Meta checker, JSON formatter, QR generator, Markdown previewer, and more. No ads, no sign-up.",
+    url: "https://quickseotools.com",
+    siteName: "QuickSEO Tools",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QuickSEO Tools - Free SEO & Developer Utilities",
+    description:
+      "Browser-based tools for SEO and developers. Meta checker, JSON formatter, QR generator, Markdown previewer, and more. No ads, no sign-up.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
