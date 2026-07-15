@@ -76,7 +76,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-4 pb-20 flex-1">
+      <section className="w-full max-w-5xl mx-auto px-4 pb-20 flex-1">
         <h2 className="text-2xl font-semibold mb-8">Choose a Tool</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map(tool => (
