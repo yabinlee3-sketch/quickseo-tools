@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tags, Eye, Shield, FileText, Globe, Code2, ArrowRight, Braces, Link2, Binary, QrCode } from 'lucide-react';
+import { Tags, Eye, Shield, FileText, Globe, Code2, ArrowRight, Braces, Link2, Binary, QrCode, Palette, CaseSensitive, Fingerprint, Type, Key, Monitor } from 'lucide-react';
 
 const tools = [
   {
@@ -71,6 +71,48 @@ const tools = [
     description: 'Generate QR codes from any text or URL. Customize colors and size. Download as PNG. Pure client-side, no tracking.',
     href: '/tools/qr-generator',
     icon: QrCode,
+    badge: 'New',
+  },
+  {
+    title: 'Color Picker & Converter',
+    description: 'Convert between HEX, RGB, and HSL color formats. Live preview with instant copy. Supports all CSS color formats.',
+    href: '/tools/color-converter',
+    icon: Palette,
+    badge: 'New',
+  },
+  {
+    title: 'Text Case Converter',
+    description: 'Convert text between UPPER, lower, Title, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE.',
+    href: '/tools/case-converter',
+    icon: CaseSensitive,
+    badge: 'New',
+  },
+  {
+    title: 'UUID Generator',
+    description: 'Generate cryptographically random UUIDs v4. Create one or bulk UUIDs with a single click. Copy individually or all at once.',
+    href: '/tools/uuid-generator',
+    icon: Fingerprint,
+    badge: 'New',
+  },
+  {
+    title: 'Lorem Ipsum Generator',
+    description: 'Generate Lorem Ipsum placeholder text by paragraphs or words. Customize count and copy instantly. Perfect for mockups.',
+    href: '/tools/lorem-ipsum',
+    icon: Type,
+    badge: 'New',
+  },
+  {
+    title: 'Password Generator',
+    description: 'Create cryptographically secure random passwords. Choose length (4-128), uppercase, lowercase, digits, and symbols.',
+    href: '/tools/password-generator',
+    icon: Key,
+    badge: 'New',
+  },
+  {
+    title: 'User Agent Parser',
+    description: 'Parse any browser User-Agent string. Extract browser, OS, device type, and engine information. Auto-detects your UA.',
+    href: '/tools/ua-parser',
+    icon: Monitor,
     badge: 'New',
   },
 ];
