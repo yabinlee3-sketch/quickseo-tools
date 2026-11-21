@@ -5,31 +5,31 @@ import { isIP } from 'node:net';
 const MAX_BYTES = 3_000_000;
 const MAX_REDIRECTS = 5;
 
-/** 判断是否为私有/保留 IP —— 阻止借本站服务器探测内网(SSRF) */
+/** Return true for private/reserved IPs - prevents abusing this server to probe internal networks (SSRF) */
 function isBlockedIp(ip: string): boolean {
   const v = isIP(ip);
   if (v === 4) {
     const [a, b] = ip.split('.').map(Number);
     if (a === 0 || a === 10 || a === 127) return true;
-    if (a === 169 && b === 254) return true; // 链路本地,云元数据 169.254.169.254
+    if (a === 169 && b === 254) return true; // link-local, cloud metadata 169.254.169.254
     if (a === 172 && b >= 16 && b <= 31) return true;
     if (a === 192 && b === 168) return true;
     if (a === 100 && b >= 64 && b <= 127) return true; // CGNAT
-    if (a >= 224) return true; // 组播/保留
+    if (a >= 224) return true; // multicast / reserved
     return false;
   }
   if (v === 6) {
     const s = ip.toLowerCase();
     if (s === '::1' || s === '::') return true;
-    if (s.startsWith('fc') || s.startsWith('fd')) return true; // 唯一本地
-    if (/^fe[89ab]/.test(s)) return true; // 链路本地
-    if (s.startsWith('::ffff:')) return isBlockedIp(s.slice(7)); // IPv4 映射
+    if (s.startsWith('fc') || s.startsWith('fd')) return true; // unique local
+    if (/^fe[89ab]/.test(s)) return true; // link-local
+    if (s.startsWith('::ffff:')) return isBlockedIp(s.slice(7)); // IPv4-mapped
     return false;
   }
-  return true; // 无法识别一律拒绝
+  return true; // reject anything unrecognized
 }
 
-/** 校验协议与目标 IP,返回规范化 URL 或错误 */
+/** Validate protocol and target IP, return normalized URL or error */
 async function validateTarget(rawUrl: string): Promise<{ url?: URL; error?: string }> {
   let parsed: URL;
   try {
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: first.error || 'Invalid URL' }, { status: 400 });
     }
 
-    // 手动跟随跳转,每一跳都重新校验,防止经 302 跳到内网
+    // Follow redirects manually, revalidating each hop to prevent a 302 jump to an internal network
     let current = first.url.toString();
     let response!: Response;
     for (let i = 0; i <= MAX_REDIRECTS; i++) {

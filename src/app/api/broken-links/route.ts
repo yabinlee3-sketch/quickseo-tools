@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: first.error || 'Invalid URL' }, { status: 400 });
     }
 
-    // 抓取页面 HTML
+    // Fetch the page HTML
     const pageRes = await fetch(first.url.toString(), {
       signal: controller.signal,
       headers: { 'User-Agent': 'SEO-Toolkit/1.0 (Broken Link Checker)' },
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     const $ = cheerio.load(html);
     const baseUrl = first.url;
 
-    // 提取所有绝对/相对链接，去重
+    // Extract all absolute/relative links and deduplicate
     const links = new Set<string>();
     $('a[href]').each((_, el) => {
       const href = $(el).attr('href');
@@ -42,15 +42,15 @@ export async function POST(request: NextRequest) {
       } catch { /* skip malformed */ }
     });
 
-    const allLinks = Array.from(links).slice(0, 50); // 限制检查数量，避免超时
+    const allLinks = Array.from(links).slice(0, 50); // cap the count to avoid timeouts
 
-    // 并发检查（每批 10 个）
+    // Check concurrently (10 per batch)
     const results: LinkResult[] = [];
     for (let i = 0; i < allLinks.length; i += 10) {
       const batch = allLinks.slice(i, i + 10);
       const checked = await Promise.all(batch.map(async (link): Promise<LinkResult> => {
         try {
-          // 每个链接也做 SSRF 防护
+          // Apply the same SSRF guard to every link
           const guard = await validateTarget(link);
           if (guard.error) return { url: link, status: 'blocked', ok: false };
           const res = await fetch(link, {

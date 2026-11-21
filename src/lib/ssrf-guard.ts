@@ -1,7 +1,7 @@
 import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
 
-/** 判断是否为私有/保留 IP —— 阻止借本站服务器探测内网(SSRF) */
+/** Return true for private/reserved IPs - prevents abusing this server to probe internal networks (SSRF) */
 export function isBlockedIp(ip: string): boolean {
   const v = isIP(ip);
   if (v === 4) {
@@ -25,7 +25,7 @@ export function isBlockedIp(ip: string): boolean {
   return true;
 }
 
-/** 校验协议与目标 IP，返回规范化 URL 或错误 */
+/** Validate protocol and target IP, return normalized URL or error */
 export async function validateTarget(rawUrl: string): Promise<{ url?: URL; error?: string }> {
   let parsed: URL;
   try {

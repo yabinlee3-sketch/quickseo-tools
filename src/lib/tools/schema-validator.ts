@@ -102,8 +102,8 @@ function extractJsonLd(html: string): SchemaBlock[] {
 function extractMicrodata(html: string): SchemaBlock[] {
   const blocks: SchemaBlock[] = [];
 
-  // 匹配带 itemscope 且 itemtype 指向 schema.org 的起始标签。
-  // 属性顺序无关（itemtype 可在 itemscope 前），单/双引号皆可。
+  // Match opening tags that have itemscope and itemtype pointing to schema.org.
+  // Attribute order independent (itemtype may precede itemscope); single/double quotes both work.
   const containerRegex = /<(\w+)\b(?=[^>]*\bitemscope(?:\s|=|>))(?=[^>]*\bitemtype\s*=\s*["']https?:\/\/schema\.org\/(\w+)["'])[^>]*>/gi;
   const containers = Array.from(html.matchAll(containerRegex));
 
@@ -113,23 +113,23 @@ function extractMicrodata(html: string): SchemaBlock[] {
     const startPos = container.index!;
     const contentStart = startPos + container[0].length;
 
-    // 尽力找到配对的结束标签，限定本 scope 的搜索范围，避免吞掉后续 block 的属性
+    // Best-effort match of the closing tag, bounded to this scope so later blocks are not swallowed
     let contentEnd = html.length;
     const closeRe = new RegExp(`</${tagName}\\s*>`, 'gi');
     closeRe.lastIndex = contentStart;
     const close = closeRe.exec(html);
     if (close) contentEnd = close.index;
 
-    // void 元素（如 <meta itemscope>）没有结束标签，限制在合理长度内
+    // Void elements (e.g. <meta itemscope>) have no closing tag, so cap the length
     const scope = html.slice(contentStart, Math.min(contentEnd, contentStart + 20000));
     const props: Record<string, string> = {};
 
-    // itemprop + content 属性（如 <meta itemprop="name" content="X">）
+    // itemprop + content attribute (e.g. <meta itemprop="name" content="X">)
     const propContentRe = /\bitemprop\s*=\s*["']([\w:.-]+)["'][^>]*?\bcontent\s*=\s*["']([^"']*)["']/gi;
     let pm: RegExpExecArray | null;
     while ((pm = propContentRe.exec(scope)) !== null) props[pm[1]] = pm[2];
 
-    // itemprop + 标签内文本（如 <span itemprop="name">Widget</span>）
+    // itemprop + inner text (e.g. <span itemprop="name">Widget</span>)
     const propTextRe = /\bitemprop\s*=\s*["']([\w:.-]+)["'][^>]*>([^<]*)</gi;
     while ((pm = propTextRe.exec(scope)) !== null) {
       const val = pm[2].trim();
