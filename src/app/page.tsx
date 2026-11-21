@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tags, Eye, Shield, FileText, Globe, Code2, Braces, Link2, Binary, QrCode, Palette, CaseSensitive, Fingerprint, Type, Key, Monitor, Route, Unlink, Image as ImageIcon, Languages, Zap } from 'lucide-react';
+import { Tags, Eye, Shield, FileText, Globe, Code2, Braces, Link2, Binary, QrCode, Palette, CaseSensitive, Fingerprint, Type, Key, Monitor, Route, Unlink, Image as ImageIcon, Languages, Heart } from 'lucide-react';
 
 const tools = [
   { title: 'Meta Tag Checker', description: 'Analyze title, description, OG tags, Twitter cards, headings, and more. Get actionable recommendations.', href: '/tools/meta-checker', icon: Tags, badge: 'Most Popular' },
@@ -38,10 +38,10 @@ export default function Home() {
             Quick<span className="text-blue-600">SEO</span>
           </Link>
           <nav className="flex items-center gap-3 text-sm">
-            <span className="text-muted-foreground text-xs">3 free trials left</span>
-            <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md bg-gradient-to-r from-orange-500 to-amber-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:from-orange-600 hover:to-amber-600 transition-colors">
-              <Zap className="h-3.5 w-3.5 fill-current" /> Upgrade to Pro
+            <Link href="/about" className="text-muted-foreground hover:text-foreground">About</Link>
+            <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer" title="Buy me a coffee - totally optional"
+              className="inline-flex items-center gap-1.5 rounded-md bg-gradient-to-r from-rose-500 to-orange-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:from-rose-600 hover:to-orange-600 transition-colors">
+              <Heart className="h-3.5 w-3.5 fill-current" /> Support
             </a>
           </nav>
         </div>
@@ -52,7 +52,7 @@ export default function Home() {
           Free SEO Tools That <span className="text-blue-600">Actually Work</span>
         </h1>
         <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-          No paywalls. No ads. No sign-up. All tools run in your browser.
+          No paywalls. No ads. No sign-up. All tools run in your browser — free, unlimited, forever.
           Built by a solo developer who got tired of fake &quot;free&quot; SEO tools.
         </p>
         <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground">
@@ -91,6 +91,11 @@ export default function Home() {
       <footer className="border-t py-8 text-center text-sm text-muted-foreground px-4">
         <p>QuickSEO Tools · Free &amp; Open · No tracking, no ads</p>
         <p className="mt-1">Built for developers who want honest tools.</p>
+        <p className="mt-2 text-xs">
+          Every tool is free with no limits. If this saved you time,{' '}
+          <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer" className="text-rose-500 hover:underline">buying me a coffee</a>
+          {' '}is always appreciated — but never required.
+        </p>
         <div className="mt-3 flex justify-center gap-4">
           <Link href="/about" className="hover:text-foreground">About</Link>
           <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
