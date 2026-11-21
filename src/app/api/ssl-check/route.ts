@@ -9,7 +9,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
     }
 
-    const parsed = new URL(url);
+    let parsed: URL;
+    try {
+      parsed = new URL(url.includes('://') ? url : `https://${url}`);
+    } catch {
+      return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
+    }
+    if (!['https:', 'http:'].includes(parsed.protocol)) {
+      return NextResponse.json({ error: 'Only HTTP/HTTPS URLs allowed' }, { status: 400 });
+    }
     const hostname = parsed.hostname;
     const port = parsed.port ? parseInt(parsed.port) : 443;
 

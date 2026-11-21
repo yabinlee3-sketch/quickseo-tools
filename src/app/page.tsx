@@ -1,121 +1,33 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tags, Eye, Shield, FileText, Globe, Code2, ArrowRight, Braces, Link2, Binary, QrCode, Palette, CaseSensitive, Fingerprint, Type, Key, Monitor } from 'lucide-react';
+import { Tags, Eye, Shield, FileText, Globe, Code2, Braces, Link2, Binary, QrCode, Palette, CaseSensitive, Fingerprint, Type, Key, Monitor, Route, Unlink, Image as ImageIcon, Languages, Zap } from 'lucide-react';
 
 const tools = [
-  {
-    title: 'Meta Tag Checker',
-    description: 'Analyze title, description, OG tags, Twitter cards, headings, and more. Get actionable recommendations.',
-    href: '/tools/meta-checker',
-    icon: Tags,
-    badge: 'Most Popular',
-  },
-  {
-    title: 'OG Previewer',
-    description: 'Preview how your page appears on Facebook, Twitter, LinkedIn, and Google/Discord. Check all Open Graph tags.',
-    href: '/tools/og-previewer',
-    icon: Eye,
-  },
-  {
-    title: 'SSL Checker',
-    description: 'Verify SSL certificate validity, expiration date, issuer, and protocol details.',
-    href: '/tools/ssl-checker',
-    icon: Shield,
-  },
-  {
-    title: 'Robots.txt Validator',
-    description: 'Validate robots.txt syntax, check sitemap declarations, crawl rules, and indexing directives.',
-    href: '/tools/robots-validator',
-    icon: FileText,
-  },
-  {
-    title: 'Sitemap Validator',
-    description: 'Validate XML sitemap structure, count URLs, and check for required elements like lastmod and priority.',
-    href: '/tools/sitemap-validator',
-    icon: Globe,
-  },
-  {
-    title: 'Schema Validator',
-    description: 'Extract and validate JSON-LD & Microdata structured data. Check required properties for Rich Results.',
-    href: '/tools/schema-validator',
-    icon: Code2,
-    badge: 'New',
-  },
-  {
-    title: 'JSON Formatter',
-    description: 'Validate, format, and minify JSON. Beautify messy JSON with a single click. Copy formatted output instantly.',
-    href: '/tools/json-formatter',
-    icon: Braces,
-  },
-  {
-    title: 'URL Encoder/Decoder',
-    description: 'Encode special characters for URLs or decode percent-encoded strings back to plain text.',
-    href: '/tools/url-encoder',
-    icon: Link2,
-  },
-  {
-    title: 'Base64 Encoder/Decoder',
-    description: 'Encode text to Base64 or decode Base64 strings. Works with UTF-8 including CJK characters.',
-    href: '/tools/base64-encoder',
-    icon: Binary,
-  },
-  {
-    title: 'Markdown Previewer',
-    description: 'Live preview of Markdown with split view. Supports headings, lists, links, images, code, and blockquotes.',
-    href: '/tools/markdown-previewer',
-    icon: Eye,
-  },
-  {
-    title: 'QR Code Generator',
-    description: 'Generate QR codes from any text or URL. Customize colors and size. Download as PNG. Pure client-side, no tracking.',
-    href: '/tools/qr-generator',
-    icon: QrCode,
-    badge: 'New',
-  },
-  {
-    title: 'Color Picker & Converter',
-    description: 'Convert between HEX, RGB, and HSL color formats. Live preview with instant copy. Supports all CSS color formats.',
-    href: '/tools/color-converter',
-    icon: Palette,
-    badge: 'New',
-  },
-  {
-    title: 'Text Case Converter',
-    description: 'Convert text between UPPER, lower, Title, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE.',
-    href: '/tools/case-converter',
-    icon: CaseSensitive,
-    badge: 'New',
-  },
-  {
-    title: 'UUID Generator',
-    description: 'Generate cryptographically random UUIDs v4. Create one or bulk UUIDs with a single click. Copy individually or all at once.',
-    href: '/tools/uuid-generator',
-    icon: Fingerprint,
-    badge: 'New',
-  },
-  {
-    title: 'Lorem Ipsum Generator',
-    description: 'Generate Lorem Ipsum placeholder text by paragraphs or words. Customize count and copy instantly. Perfect for mockups.',
-    href: '/tools/lorem-ipsum',
-    icon: Type,
-    badge: 'New',
-  },
-  {
-    title: 'Password Generator',
-    description: 'Create cryptographically secure random passwords. Choose length (4-128), uppercase, lowercase, digits, and symbols.',
-    href: '/tools/password-generator',
-    icon: Key,
-    badge: 'New',
-  },
-  {
-    title: 'User Agent Parser',
-    description: 'Parse any browser User-Agent string. Extract browser, OS, device type, and engine information. Auto-detects your UA.',
-    href: '/tools/ua-parser',
-    icon: Monitor,
-    badge: 'New',
-  },
+  { title: 'Meta Tag Checker', description: 'Analyze title, description, OG tags, Twitter cards, headings, and more. Get actionable recommendations.', href: '/tools/meta-checker', icon: Tags, badge: 'Most Popular' },
+  { title: 'OG Previewer', description: 'Preview how your page appears on Facebook, Twitter, LinkedIn, and Google/Discord. Check all Open Graph tags.', href: '/tools/og-previewer', icon: Eye },
+  { title: 'SSL Checker', description: 'Verify SSL certificate validity, expiration date, issuer, and protocol details.', href: '/tools/ssl-checker', icon: Shield },
+  { title: 'Robots.txt Validator', description: 'Validate robots.txt syntax, check sitemap declarations, crawl rules, and indexing directives.', href: '/tools/robots-validator', icon: FileText },
+  { title: 'Sitemap Validator', description: 'Validate XML sitemap structure, count URLs, and check for required elements like lastmod and priority.', href: '/tools/sitemap-validator', icon: Globe },
+  { title: 'Schema Validator', description: 'Extract and validate JSON-LD & Microdata structured data. Check required properties for Rich Results.', href: '/tools/schema-validator', icon: Code2, badge: 'New' },
+  { title: 'JSON Formatter', description: 'Validate, format, and minify JSON. Beautify messy JSON with a single click. Copy formatted output instantly.', href: '/tools/json-formatter', icon: Braces },
+  { title: 'URL Encoder/Decoder', description: 'Encode special characters for URLs or decode percent-encoded strings back to plain text.', href: '/tools/url-encoder', icon: Link2 },
+  { title: 'Base64 Encoder/Decoder', description: 'Encode text to Base64 or decode Base64 strings. Works with UTF-8 including CJK characters.', href: '/tools/base64-encoder', icon: Binary },
+  { title: 'Markdown Previewer', description: 'Live preview of Markdown with split view. Supports headings, lists, links, images, code, and blockquotes.', href: '/tools/markdown-previewer', icon: Eye },
+  { title: 'QR Code Generator', description: 'Generate QR codes from any text or URL. Customize colors and size. Download as PNG. Pure client-side, no tracking.', href: '/tools/qr-generator', icon: QrCode, badge: 'New' },
+  { title: 'Color Picker & Converter', description: 'Convert between HEX, RGB, and HSL color formats. Live preview with instant copy. Supports all CSS color formats.', href: '/tools/color-converter', icon: Palette, badge: 'New' },
+  { title: 'Text Case Converter', description: 'Convert text between UPPER, lower, Title, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE.', href: '/tools/case-converter', icon: CaseSensitive, badge: 'New' },
+  { title: 'UUID Generator', description: 'Generate cryptographically random UUIDs v4. Create one or bulk UUIDs with a single click. Copy individually or all at once.', href: '/tools/uuid-generator', icon: Fingerprint, badge: 'New' },
+  { title: 'Lorem Ipsum Generator', description: 'Generate Lorem Ipsum placeholder text by paragraphs or words. Customize count and copy instantly. Perfect for mockups.', href: '/tools/lorem-ipsum', icon: Type, badge: 'New' },
+  { title: 'Password Generator', description: 'Create cryptographically secure random passwords. Choose length (4-128), uppercase, lowercase, digits, and symbols.', href: '/tools/password-generator', icon: Key, badge: 'New' },
+  { title: 'User Agent Parser', description: 'Parse any browser User-Agent string. Extract browser, OS, device type, and engine information. Auto-detects your UA.', href: '/tools/ua-parser', icon: Monitor, badge: 'New' },
+  { title: 'URL Redirect Checker', description: 'Track every step of HTTP redirect chains. See each 301/302 status code and final destination. Essential for SEO migrations.', href: '/tools/url-redirect-checker', icon: Route, badge: 'New' },
+  { title: 'Broken Link Checker', description: 'Scan any page for broken external links. Find 404 errors, dead links, and server errors. Fix bad links to improve SEO.', href: '/tools/broken-link-checker', icon: Unlink, badge: 'New' },
+  { title: 'Favicon Generator', description: 'Upload a PNG or JPG to generate favicons in all standard sizes. Get ready-to-paste HTML code. Pure client-side, no upload.', href: '/tools/favicon-generator', icon: ImageIcon, badge: 'New' },
+  { title: 'Hreflang Generator', description: 'Create hreflang annotations for multi-language websites. Avoid international SEO errors with correct language-region tags.', href: '/tools/hreflang-generator', icon: Languages, badge: 'New' },
 ];
+
+const CHECKOUT_URL = 'https://contentforgeapp.lemonsqueezy.com/checkout/buy/f90ed495-c86c-4918-9e4e-9f1a3d67749f';
 
 export default function Home() {
   return (
@@ -125,10 +37,12 @@ export default function Home() {
           <Link href="/" className="font-bold text-xl tracking-tight">
             Quick<span className="text-blue-600">SEO</span>
           </Link>
-          <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-            <span className="px-3 py-1.5 rounded-md bg-green-50 text-green-700 font-medium text-xs">
-              100% Free · No Ads
-            </span>
+          <nav className="flex items-center gap-3 text-sm">
+            <span className="text-muted-foreground text-xs">3 free trials left</span>
+            <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md bg-gradient-to-r from-orange-500 to-amber-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:from-orange-600 hover:to-amber-600 transition-colors">
+              <Zap className="h-3.5 w-3.5 fill-current" /> Upgrade to Pro
+            </a>
           </nav>
         </div>
       </header>
@@ -160,21 +74,13 @@ export default function Home() {
                     <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
                       <tool.icon className="h-5 w-5" />
                     </div>
-                    {tool.badge && (
-                      <Badge variant="secondary" className="text-xs">{tool.badge}</Badge>
-                    )}
+                    {tool.badge && <Badge variant="secondary" className="text-xs">{tool.badge}</Badge>}
                   </div>
-                  <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">
-                    {tool.title}
-                  </CardTitle>
-                  <CardDescription className="text-sm leading-relaxed">
-                    {tool.description}
-                  </CardDescription>
+                  <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{tool.title}</CardTitle>
+                  <CardDescription className="text-sm leading-relaxed">{tool.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <span className="text-sm text-blue-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Try it <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
+                  <span className="text-sm text-blue-600 font-medium">Try it →</span>
                 </CardContent>
               </Card>
             </Link>
@@ -185,6 +91,10 @@ export default function Home() {
       <footer className="border-t py-8 text-center text-sm text-muted-foreground px-4">
         <p>QuickSEO Tools · Free &amp; Open · No tracking, no ads</p>
         <p className="mt-1">Built for developers who want honest tools.</p>
+        <div className="mt-3 flex justify-center gap-4">
+          <Link href="/about" className="hover:text-foreground">About</Link>
+          <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
+        </div>
       </footer>
     </div>
   );

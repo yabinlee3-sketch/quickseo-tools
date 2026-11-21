@@ -101,52 +101,50 @@ function extractJsonLd(html: string): SchemaBlock[] {
 
 function extractMicrodata(html: string): SchemaBlock[] {
   const blocks: SchemaBlock[] = [];
-  const regex = /<[^>]+itemscope[^>]*itemtype=["']https?:\/\/schema\.org\/(\w+)["'][^>]*>([\s\S]*?)<\/\1>/gi;
-  // Simpler approach: find itemscope containers
-  const containerRegex = /<(\w+)[^>]*\sitemscope[^>]*\sitemtype=["']https?:\/\/schema\.org\/(\w+)["'][^>]*>/gi;
-  let match;
 
-  while ((match = containerRegex.exec(html)) !== null) {
-    const tagName = match[1];
-    const type = match[2];
-    const errors: string[] = [];
-    const warnings: string[] = [];
+  // 匹配带 itemscope 且 itemtype 指向 schema.org 的起始标签。
+  // 属性顺序无关（itemtype 可在 itemscope 前），单/双引号皆可。
+  const containerRegex = /<(\w+)\b(?=[^>]*\bitemscope(?:\s|=|>))(?=[^>]*\bitemtype\s*=\s*["']https?:\/\/schema\.org\/(\w+)["'])[^>]*>/gi;
+  const containers = Array.from(html.matchAll(containerRegex));
 
-    // Find matching closing tag
-    const startPos = match.index;
-    const fullMatch = match[0];
-    const afterTagStart = startPos + fullMatch.length;
+  for (const container of containers) {
+    const tagName = container[1].toLowerCase();
+    const type = container[2];
+    const startPos = container.index!;
+    const contentStart = startPos + container[0].length;
 
-    // Find itemprop attributes within this scope (naive but functional)
+    // 尽力找到配对的结束标签，限定本 scope 的搜索范围，避免吞掉后续 block 的属性
+    let contentEnd = html.length;
+    const closeRe = new RegExp(`</${tagName}\\s*>`, 'gi');
+    closeRe.lastIndex = contentStart;
+    const close = closeRe.exec(html);
+    if (close) contentEnd = close.index;
+
+    // void 元素（如 <meta itemscope>）没有结束标签，限制在合理长度内
+    const scope = html.slice(contentStart, Math.min(contentEnd, contentStart + 20000));
     const props: Record<string, string> = {};
-    const propRegex = /itemprop=["'](\w+)["'][^>]*content=["']([^"']*)["']/gi;
-    const propRegex2 = /itemprop=["'](\w+)["'][^>]*>([^<]*)</gi;
 
-    // Extract properties with content attribute
-    let pm;
-    while ((pm = propRegex.exec(html)) !== null) {
-      if (pm.index > startPos) {
-        props[pm[1]] = pm[2];
-      }
-    }
+    // itemprop + content 属性（如 <meta itemprop="name" content="X">）
+    const propContentRe = /\bitemprop\s*=\s*["']([\w:.-]+)["'][^>]*?\bcontent\s*=\s*["']([^"']*)["']/gi;
+    let pm: RegExpExecArray | null;
+    while ((pm = propContentRe.exec(scope)) !== null) props[pm[1]] = pm[2];
 
-    // Extract properties with inner text
-    while ((pm = propRegex2.exec(html)) !== null) {
-      if (pm.index > startPos) {
-        props[pm[1]] = pm[2].trim();
-      }
+    // itemprop + 标签内文本（如 <span itemprop="name">Widget</span>）
+    const propTextRe = /\bitemprop\s*=\s*["']([\w:.-]+)["'][^>]*>([^<]*)</gi;
+    while ((pm = propTextRe.exec(scope)) !== null) {
+      const val = pm[2].trim();
+      if (val && !(pm[1] in props)) props[pm[1]] = val;
     }
 
     blocks.push({
       format: 'microdata',
       type,
       data: { '@type': type, ...props } as Record<string, unknown>,
-      raw: html.slice(startPos, startPos + 500),
-      errors,
-      warnings,
+      raw: html.slice(startPos, Math.min(contentEnd, startPos + 500)),
+      errors: [],
+      warnings: [],
     });
 
-    // Only capture first few microdata blocks to avoid overload
     if (blocks.filter(b => b.format === 'microdata').length >= 5) break;
   }
 
